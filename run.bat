@@ -20,9 +20,12 @@ if not exist "node_modules\" (
 )
 
 echo.
-echo 7 вершин — http://localhost:5174/
-echo Если страница не открылась — откройте ссылку вручную.
+echo 7 вершин
+echo   ПК:      http://localhost:5174/
+echo   Телефон: http://192.168.0.102:5174/  (тот же Wi-Fi, VPN на ПК лучше выключить)
+echo   Прод:    https://7vershin.vorobjev.pro  — пока не задеплоен
+echo.
 echo Закройте это окно, чтобы остановить сервер.
 echo.
-call npm run dev -- --port 5174 --strictPort
+call npm run dev -- --host --port 5174
 pause

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import PinPad from '@/components/PinPad.vue'
 import KyuBadge from '@/components/KyuBadge.vue'
+import BrandMark from '@/components/BrandMark.vue'
 import { ATHLETES } from '@/data/athletes'
 import { STAFF } from '@/data/staff'
 import { hashPin, readSession, writeSession, clearSession, isStaff } from '@/lib/auth'
@@ -62,7 +63,7 @@ const roleLabel = computed(() => (session.value?.role === 'admin' ? 'Админ'
 <template>
   <div class="shell">
     <header class="topnav">
-      <RouterLink class="brand" to="/">7 вершин</RouterLink>
+      <RouterLink class="brand" to="/"><BrandMark /></RouterLink>
       <nav class="nav-links">
         <button v-if="staffed" type="button" class="text-btn" @click="logout">Выйти</button>
       </nav>

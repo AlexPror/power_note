@@ -38,3 +38,30 @@ export const LAYER_LABELS = {
   load: 'Отягощения',
   skill: 'Навык / спорт',
 }
+
+/** Подписи маяков для экрана «Что делаем» (без англ. жаргона) */
+export const AFFECT_LABELS = {
+  push: 'отжимания',
+  pull: 'подтягивания',
+  crunch: 'пресс',
+  plank: 'планка',
+  plankL: 'планка боковая (левая)',
+  plankR: 'планка боковая (правая)',
+  plankB: 'планка обратная',
+  hang: 'вис на турнике',
+  rope: 'скакалка',
+  jump: 'прыжок в длину',
+  burpee: 'берпи',
+  squatJump: 'выпрыгивания',
+  goblet: 'присед с гирей у груди',
+  farmer: 'фермерская прогулка',
+  kbSwing: 'махи гирей',
+  bridge: 'ягодичный мост',
+  squat: 'приседания',
+  run: 'бег',
+}
+
+export function affectLabel(id) {
+  return AFFECT_LABELS[id] || id
+}
+

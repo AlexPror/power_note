@@ -8,7 +8,7 @@ import { ageYears, fullName, showWeightOnNow, formatKg } from '@/lib/age'
 import { beltLabel } from '@/data/belts'
 import { formatDay, cycleForPeriod, inPeriod, REF_TODAY } from '@/lib/period'
 import { overallTrend, trendOf, sessionCounts } from '@/lib/trends'
-import { exercisesInPeriod, groupExercises, LAYER_LABELS } from '@/lib/exercises'
+import { exercisesInPeriod, groupExercises, LAYER_LABELS, affectLabel } from '@/lib/exercises'
 import { profileById } from '@/data/profiles'
 import { athleteBySlug } from '@/data/athletes'
 import {
@@ -184,7 +184,10 @@ function layerHint(layer) {
           <div>
             <p class="rec-obs">{{ r.observation }}</p>
             <p class="rec-act">{{ r.action }}</p>
-            <p v-if="r.affects?.length" class="hint-line">Влияет: {{ r.affects.join(', ') }}</p>
+            <p v-if="r.affects?.length" class="hint-line">
+              Влияет на:
+              {{ r.affects.map((id) => affectLabel(id)).join(', ') }}
+            </p>
           </div>
         </div>
       </div>

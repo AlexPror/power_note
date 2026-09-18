@@ -3,6 +3,7 @@ import { computed, provide, ref } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import PinPad from '@/components/PinPad.vue'
 import TabBar from '@/components/TabBar.vue'
+import BrandMark from '@/components/BrandMark.vue'
 import { athleteBySlug } from '@/data/athletes'
 import { hashPin, readSession, writeSession, clearSession, canViewAthlete, isStaff } from '@/lib/auth'
 import { fullName } from '@/lib/age'
@@ -50,7 +51,7 @@ function logout() {
 
   <div v-else-if="!allowed" class="shell">
     <header class="topnav">
-      <RouterLink class="brand" to="/">7 вершин</RouterLink>
+      <RouterLink class="brand" to="/"><BrandMark /></RouterLink>
     </header>
     <h1 class="page-title">{{ fullName(athlete) }}</h1>
     <p class="page-sub">Один PIN на семью: мама, папа, бабушка, ученик.</p>
@@ -65,7 +66,7 @@ function logout() {
 
   <div v-else class="shell family">
     <header class="topnav">
-      <RouterLink class="brand" to="/">7 вершин</RouterLink>
+      <RouterLink class="brand" to="/"><BrandMark /></RouterLink>
       <nav class="nav-links">
         <RouterLink v-if="staff" to="/staff">Группа</RouterLink>
         <button type="button" class="text-btn" @click="logout">Выйти</button>

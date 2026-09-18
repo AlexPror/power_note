@@ -10,8 +10,9 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   server: {
+    host: true,
     port: 5174,
-    strictPort: true,
+    strictPort: false,
     open: true,
   },
   build: {
