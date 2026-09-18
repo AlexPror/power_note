@@ -26,6 +26,11 @@ export default createRouter({
         { path: 'base/etiquette', name: 'etiquette', component: EtiquetteView },
         { path: 'base/pullups', name: 'pullups', component: PullupGuideView },
         {
+          path: 'base/attestation',
+          name: 'attestation',
+          component: () => import('@/views/AttestationView.vue'),
+        },
+        {
           path: 'base/figures',
           name: 'figures',
           component: () => import('@/views/FiguresView.vue'),

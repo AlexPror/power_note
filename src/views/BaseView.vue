@@ -106,7 +106,8 @@ function isInternal(hit) {
 }
 
 function groupTo(g) {
-  if (g.kind === 'figures') return `/u/${slug.value}/base/figures`
+  if (g.kind === 'figures' || g.id === 'figures') return `/u/${slug.value}/base/figures`
+  if (g.id === 'attestation') return `/u/${slug.value}/base/attestation`
   return `/u/${slug.value}/base/s/${g.id}`
 }
 </script>
@@ -147,6 +148,11 @@ function groupTo(g) {
     </div>
 
     <div class="hub-grid">
+      <RouterLink class="hub-card featured" :to="`/u/${slug}/base/attestation`">
+        <span class="hub-count">11–1</span>
+        <h2>Нормативы поясов</h2>
+        <p>Таблица аттестации: сроки, ката, отжимания, присед, пресс, кумитэ</p>
+      </RouterLink>
       <RouterLink
         v-for="g in filteredGroups"
         :key="g.id"

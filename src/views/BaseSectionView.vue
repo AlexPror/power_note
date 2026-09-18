@@ -1,15 +1,26 @@
 <script setup>
-import { computed, inject } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { computed, inject, watch } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { videosForKyu } from '@/data/videos'
 import { profileById } from '@/data/profiles'
 import { SAFETY_NOTICE } from '@/data/trainingPlan'
 
 const route = useRoute()
+const router = useRouter()
 const athlete = inject('athlete')
 const profile = computed(() => profileById(athlete.value.profileId || 'kyokushin'))
 const slug = computed(() => athlete.value.slug)
 const sectionId = computed(() => route.params.section)
+
+watch(
+  sectionId,
+  (id) => {
+    if (id === 'figures') {
+      router.replace(`/u/${slug.value}/base/figures`)
+    }
+  },
+  { immediate: true },
+)
 
 const meta = computed(() =>
   (profile.value.videoSections || []).find((s) => s.id === sectionId.value),

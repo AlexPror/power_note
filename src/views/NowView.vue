@@ -20,6 +20,7 @@ import {
   homeBlock,
 } from '@/data/trainingPlan'
 import { videoById } from '@/data/videos'
+import { nextAttestation, prepLabel } from '@/data/attestation'
 
 const athlete = inject('athlete')
 const period = ref(null)
@@ -70,6 +71,7 @@ const plankTrend = computed(() => {
   const lastV = plank.map((e) => e.points.at(-1)?.v || 0).reduce((a, b) => a + b, 0)
   return trendOf([{ v: first }, { v: lastV }])
 })
+const nextAttest = computed(() => nextAttestation(athlete.value.kyu))
 
 function onPeriod(v) {
   period.value = v
@@ -109,12 +111,10 @@ function layerHint(layer) {
         <span class="hint">{{ cycleNow.start.slice(5) }} — {{ cycleNow.end.slice(5) }}</span>
       </div>
       <div class="panel">
-        <p class="note" style="margin-top:0">{{ PLAN_HORIZON.homeHint }}</p>
-        <p class="hint-line">{{ cycleNow.focus }}</p>
+        <p class="hint-line" style="margin-top:0">{{ cycleNow.focus }}</p>
         <ul class="plain-list home-plan-list">
           <li v-for="(item, i) in homeItems" :key="i">
             <strong>{{ item.name }}</strong> — {{ item.dose }}
-            <span v-if="item.note" class="hint-line"> · {{ item.note }}</span>
             <span v-if="item.videoIds?.length" class="hint-line">
               ·
               <template v-for="(vid, vi) in item.videoIds" :key="vid">
@@ -133,10 +133,32 @@ function layerHint(layer) {
             </span>
           </li>
         </ul>
-        <p v-if="planGroup" class="note">{{ planGroup.gear }}</p>
-        <p v-if="athlete.planGroup === 'teen' || athlete.planGroup === 'senior'" class="note">{{ GYM_NOTE }}</p>
-        <p class="note safety-note">{{ SAFETY_NOTICE }}</p>
+        <details class="disclose home-extra">
+          <summary>
+            Подсказки к блоку
+            <span class="meta-line">инвентарь · техника</span>
+          </summary>
+          <div class="disclose-body">
+            <p class="note" style="margin-top:0">{{ PLAN_HORIZON.homeHint }}</p>
+            <p v-for="(item, i) in homeItems.filter((x) => x.note)" :key="'n'+i" class="note">
+              {{ item.name }}: {{ item.note }}
+            </p>
+            <p v-if="planGroup" class="note">{{ planGroup.gear }}</p>
+            <p v-if="athlete.planGroup === 'teen' || athlete.planGroup === 'senior'" class="note">{{ GYM_NOTE }}</p>
+            <p class="note safety-note">{{ SAFETY_NOTICE }}</p>
+          </div>
+        </details>
       </div>
+    </div>
+
+    <div v-if="nextAttest" class="group-gap">
+      <RouterLink class="panel attest-teaser" :to="`/u/${athlete.slug}/base/attestation`">
+        <div class="section-label" style="margin:0">
+          <h2>К нормативам</h2>
+          <span class="hint">{{ prepLabel(nextAttest) }}</span>
+        </div>
+        <p class="hint-line">{{ beltLabel(nextAttest.kyu) }} · отжим. {{ nextAttest.push }} · пресс {{ nextAttest.crunch }} · кумитэ {{ nextAttest.kumite }}</p>
+      </RouterLink>
     </div>
 
     <div v-if="p" class="status-strip">
@@ -148,11 +170,6 @@ function layerHint(layer) {
         <div class="hint">с {{ formatDay(athlete.kyuSince) }}</div>
       </div>
       <div class="status-item">
-        <div class="lbl">Период</div>
-        <div class="val" style="font-size:1.05rem">{{ p.weeks ? p.weeks + ' нед.' : 'свой' }}</div>
-        <div class="hint">{{ p.label }}</div>
-      </div>
-      <div class="status-item">
         <div class="lbl">Тренировок</div>
         <div class="val">{{ counts.total }}</div>
         <div class="hint">пропусков {{ counts.rest }}</div>
@@ -162,17 +179,12 @@ function layerHint(layer) {
         <div class="val">{{ formatKg(lastKg) }}</div>
         <div class="hint">кг · как растём</div>
       </div>
-      <div v-else class="status-item">
+      <div class="status-item">
         <div class="lbl">Тренд</div>
         <div class="val" style="font-size:1.2rem">{{ trend.label }}</div>
         <div class="hint">маяки периода</div>
       </div>
     </div>
-
-    <p v-if="p" class="trend-line" :data-k="trend.key">
-      Сейчас: <strong>{{ trend.label }}</strong>
-      <template v-if="!showKg"> · вес в подробностях</template>
-    </p>
 
     <div v-if="activeRecs.length" class="group-gap">
       <div class="section-label">
@@ -212,15 +224,13 @@ function layerHint(layer) {
         <h2>Отчёт цикла</h2>
         <span class="hint">только с собой</span>
       </div>
-      <div class="panel">
-        <p v-if="cycle?.report" class="report">
+      <div v-if="cycle?.report" class="panel">
+        <p class="report">
           <span v-if="cycle.title" class="badge" style="margin-right:0.4rem">{{ cycle.title }}</span>
           {{ cycle.report }}
         </p>
-        <p v-else class="note" style="margin:0">
-          Отчёт за произвольный отрезок пока не сформирован. Выберите цикл тренера (4 недели) или дождитесь разбора.
-        </p>
       </div>
+      <p v-else class="note">Отчёт появится после разбора тренера за цикл.</p>
     </div>
 
     <template v-for="layer in layerOrder" :key="layer">

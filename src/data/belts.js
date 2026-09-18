@@ -1,5 +1,6 @@
 /** ИКО Мацуи: полоски на 9 / 7 / 5 / 3 кю */
 export const BELTS = [
+  { kyu: 11, name: '11 кю', color: 'белый', stripe: true, hex: '#f4f1ea', ink: '#3a3a36' },
   { kyu: 10, name: '10 кю', color: 'белый', stripe: false, hex: '#f4f1ea', ink: '#3a3a36' },
   { kyu: 9, name: '9 кю', color: 'оранжевый', stripe: true, hex: '#e07a2a', ink: '#fff' },
   { kyu: 8, name: '8 кю', color: 'оранжевый', stripe: false, hex: '#e07a2a', ink: '#fff' },

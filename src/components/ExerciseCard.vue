@@ -30,8 +30,9 @@ const datasets = computed(() => [{
       {{ ex.current }}
       <small>{{ ex.unit }}</small>
     </div>
-    <div class="chart-box sm" style="margin-top:0.45rem">
+    <div class="chart-box sm" style="margin-top:0.45rem" v-if="ex.points.length > 1">
       <LineChart :labels="labels" :datasets="datasets" />
     </div>
+    <p v-else class="hint-line" style="margin:0.45rem 0 0">График появится после следующих замеров</p>
   </div>
 </template>
