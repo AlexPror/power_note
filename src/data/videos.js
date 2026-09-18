@@ -1,0 +1,273 @@
+/**
+ * Уроки — только то, что нужно сезону ОФП до 31.05.2027.
+ * Ссылки должны совпадать с названием упражнения.
+ */
+export const VIDEOS = [
+  // ── ОФП / ГТО ──
+  {
+    id: 'pushup',
+    section: 'ofp',
+    title: 'Отжимания (упор лёжа)',
+    why: 'База силы рук и корпуса для каратиста.',
+    look: 'Корпус прямой, локти ~45°, таз не провисает.',
+    miss: 'Поясница «лодочкой», неполная амплитуда.',
+    fromKyu: 10,
+    host: 'ГТО Москва',
+    href: 'https://gto.sport.mos.ru/video/GTO_OTZIMANIA_FINAL_CC.mp4',
+  },
+  {
+    id: 'pullup',
+    section: 'ofp',
+    title: 'Подтягивания на высокой перекладине',
+    why: 'Тяга своего веса — маяк сезона.',
+    look: 'Хват сверху, без раскачки, подбородок выше грифа.',
+    miss: 'Рывки ногами, неполный вис.',
+    fromKyu: 10,
+    host: 'ГТО Москва',
+    href: 'https://gto.sport.mos.ru/video/GTO_PODTYAGIVANIE_FINAL_CC.mp4',
+  },
+  {
+    id: 'pullup_low',
+    section: 'ofp',
+    title: 'Подтягивания на низкой перекладине',
+    why: 'Подводящие и ГТО: вис лёжа.',
+    look: 'Тело — прямая линия, подбородок пересекает гриф.',
+    miss: 'Провал таза, рывок.',
+    fromKyu: 10,
+    host: 'ГТО Москва',
+    href: 'https://gto.sport.mos.ru/video/GTO_PODTYAGIVANIE_LEZA_FINAL_CC.mp4',
+  },
+  {
+    id: 'crunch',
+    section: 'ofp',
+    title: 'Поднимание туловища (пресс)',
+    why: 'Кор для ударов ногами и стабилизации.',
+    look: 'Лопатки на полу внизу; без рывка руками за голову.',
+    miss: 'Рывок руками, отрыв таза.',
+    fromKyu: 10,
+    host: 'ГТО Москва',
+    href: 'https://gto.sport.mos.ru/video/GTO_PRESS_FINAL_CC.mp4',
+  },
+  {
+    id: 'longjump',
+    section: 'ofp',
+    title: 'Прыжок в длину с места',
+    why: 'Взрывная сила ног — маяк сезона.',
+    look: 'Толчок двумя ногами одновременно, мах руками, мягкое приземление.',
+    miss: 'Подскок перед толчком, разновременный толчок.',
+    fromKyu: 10,
+    host: 'ВФСК ГТО',
+    href: 'https://www.youtube.com/watch?v=reI88IvAqxY',
+  },
+
+  // ── Плио ──
+  {
+    id: 'burpee',
+    section: 'plyo',
+    title: 'Берпи (от простого к сложному)',
+    why: 'Выносливость и сборка тела. Детям — сначала без отжимания / с шагом назад.',
+    look: 'Присед → упор → (отжимание по уровню) → ноги к рукам → выпрыгивание.',
+    miss: 'Провал поясницы в упоре, жёсткое приземление на прямые ноги.',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/e38e2d1d3f15d435f60232565c9783f4/',
+  },
+  {
+    id: 'squat_bw',
+    section: 'plyo',
+    title: 'Приседания (без веса)',
+    why: 'База ног: 3 варианта для детей + растяжка (в т.ч. к стулу).',
+    look: 'Колени по носкам, пятки на полу, спина длинная, таз назад.',
+    miss: 'Округление поясницы, отрыв пяток.',
+    fromKyu: 10,
+    host: 'Fitness2kids',
+    href: 'https://rutube.ru/video/568a20f441dc51d1b3f6c3d2f83dd576/',
+  },
+
+  // ── К подтягиваниям (одна карточка) ──
+  {
+    id: 'pullup_guide',
+    section: 'pullprog',
+    title: 'Как научиться подтягиваться',
+    why: 'С нуля: подводящие, ошибки, путь к первому повторению.',
+    look: 'Вис → австралийские / низкая перекладина → негативы → полное подтягивание.',
+    miss: 'Рваться сразу на «полное» повторение, сильный читинг ногами.',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/3f89b4bba853348bbcf29d19f17a0ee6/',
+  },
+
+  // ── Планка ──
+  {
+    id: 'plank_forearm',
+    section: 'plank',
+    title: 'Планка на предплечьях / ладонях',
+    why: 'Корпус — база удара и защиты. Ладони — тот же корпус, опора как в отжимании.',
+    look: 'Пятки–макушка линия; на предплечьях — локти под плечами; на ладонях — ладони под плечами.',
+    miss: 'Таз вверх или провал поясницы; локти «гуляют».',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/ff2d0946e63a55e6d6747b373ef3f95d/',
+  },
+
+  // ── Подводящие ──
+  {
+    id: 'pushup_wall',
+    section: 'prep',
+    title: 'Тренировка отжиманий для начинающих',
+    why: 'Экспресс: грудь, дельты, трицепс — лестница к отжиманиям для детей.',
+    look: 'Корпус собран, без провала поясницы; темп по ролику.',
+    miss: 'Гонка за повторениями с кривой техникой.',
+    fromKyu: 10,
+    host: 'Fitness2kids',
+    href: 'https://rutube.ru/video/b45acd0cf6786b0c8024f32565ac05ee/',
+  },
+  {
+    id: 'glute_bridge',
+    section: 'prep',
+    title: 'Ягодичный мост',
+    why: 'Слабые ноги/таз: разгибание без прыжка. 3 варианта в ролике.',
+    look: 'Лёжа, стопы у таза, подъём таза, линия плечи–колени, плавно вниз.',
+    miss: 'Переразгиб поясницы, давление на шею.',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/dd474333c4b71a638069ad5b0de9da16/',
+  },
+  {
+    id: 'squat_chair',
+    section: 'prep',
+    title: 'Присед к стулу',
+    why: 'Тот же ролик Fitness2kids: с ~01:06 — приседания на стул/скамейку.',
+    look: 'Сесть на край стула и встать без рывка; пятки на полу.',
+    miss: 'Падение на стул, колени внутрь.',
+    fromKyu: 10,
+    host: 'Fitness2kids',
+    href: 'https://rutube.ru/video/568a20f441dc51d1b3f6c3d2f83dd576/',
+  },
+  {
+    id: 'core_prep',
+    section: 'prep',
+    title: 'Кор: «мёртвый жук»',
+    why: 'Слабый кор без долгой планки.',
+    look: 'Лёжа, поясница прижата; противоположные рука и нога медленно.',
+    miss: 'Рывок ногой, отрыв поясницы от пола.',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/1925b1cbb3bab71581584724eb33077a/',
+  },
+
+  // ── Гири (10+) ──
+  {
+    id: 'kb_swing2',
+    section: 'kettle',
+    title: 'Махи гирей двумя руками',
+    why: 'Таз и задняя цепь. Вес 6–8 кг.',
+    look: 'Импульс таза, спина нейтральна, гиря до груди/глаз.',
+    miss: 'Тянуть руками, округлить поясницу.',
+    fromKyu: 8,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/94ffc1cbba37dcd948ea665b204a8386/',
+  },
+  {
+    id: 'goblet',
+    section: 'kettle',
+    title: 'Goblet squat',
+    why: 'Ноги + кор с малым весом.',
+    look: 'Снаряд у груди, колени по носкам, пятки на полу.',
+    miss: 'Округление поясницы, отрыв пяток.',
+    fromKyu: 8,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/47cd9577ace1eb751085c139cea8cab4/',
+  },
+  {
+    id: 'farmer',
+    section: 'kettle',
+    title: 'Фермерская прогулка',
+    why: 'Хват и корпус.',
+    look: 'Плечи опущены, короткие шаги, снаряды не раскачиваются.',
+    miss: 'Сутулость, перекос плеч.',
+    fromKyu: 8,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/47e50cc6f85e0353f09b1ce659e6584c/',
+  },
+
+  // ── Гантели (10+) ──
+  {
+    id: 'db_press',
+    section: 'dumbbell',
+    title: 'Жим гантелей стоя',
+    why: 'Плечи для старших.',
+    look: 'Пресс собран, без сильного прогиба.',
+    miss: 'Наклон назад, рывок ногами без задачи.',
+    fromKyu: 5,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/aa1fb5c3c844b717ebcaa80d9686a487/',
+  },
+  {
+    id: 'db_row',
+    section: 'dumbbell',
+    title: 'Тяга гантели в наклоне',
+    why: 'Спина и тяга — баланс к жиму/удару.',
+    look: 'Спина длинная, тяга к поясу, лопатка сводится.',
+    miss: 'Скручивание корпуса, рывок шеей.',
+    fromKyu: 8,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/aaa1760b07001db1a687c822b9aca596/',
+  },
+  {
+    id: 'tszyu_light_db',
+    section: 'dumbbell',
+    title: 'Лёгкие гантели 0,5–1 кг (Цзю)',
+    why: 'Плечи и выносливость рук малым весом.',
+    look: 'Махи в стороны / вверх-вниз, раунды ~30–45 с.',
+    miss: 'Тяжёлые гантели, боль в плече.',
+    fromKyu: 8,
+    host: 'VK',
+    href: 'https://vk.com/video-64878557_456247462',
+  },
+
+  // ── Скакалка ──
+  {
+    id: 'rope_basic',
+    section: 'rope',
+    title: 'Прыжки на скакалке',
+    why: 'Ритм ног и дыхание. База с нуля.',
+    look: 'Прыжок 2–3 см, мягкое приземление, вращение кистями.',
+    miss: 'Прыжок слишком высокий, локти «крыльями».',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/ef94d23f6c05265454969dfd40c0d5cd/',
+  },
+
+  // ── Культура ──
+  {
+    id: 'rei',
+    section: 'kata',
+    title: 'Этикет додзё',
+    why: 'Дисциплина зала.',
+    look: 'Поклон, внимание, «осу».',
+    miss: 'Поклон кивком, невнимание к командам.',
+    fromKyu: 10,
+    host: 'текст',
+    internal: 'etiquette',
+  },
+  {
+    id: 'encyclopedia',
+    section: 'kata',
+    title: 'Энциклопедия киокушинкай',
+    why: 'Ориентир техники вне зала.',
+    look: 'Смотреть осознанно, не вместо тренера.',
+    miss: 'Только видео без практики в додзё.',
+    fromKyu: 10,
+    host: 'Rutube',
+    href: 'https://rutube.ru/video/303a6e092071bb294225f6028fb2f296/',
+  },
+]
+
+export function videosForKyu(kyu) {
+  return VIDEOS.filter((v) => kyu <= v.fromKyu)
+}
+
+export function videoById(id) {
+  return VIDEOS.find((v) => v.id === id) || null
+}
