@@ -39,7 +39,28 @@ export const LAYER_LABELS = {
   skill: 'Навык / спорт',
 }
 
-/** Подписи маяков для экрана «Что делаем» (без англ. жаргона) */
+/** Что развивает маяк (для рекомендаций — без тавтологии «отжимания → отжимания») */
+export const AFFECT_BENEFITS = {
+  push: 'сила и выносливость рук и плечевого пояса',
+  pull: 'сила тяги, спина и хват',
+  crunch: 'сила корпуса и пресса',
+  plank: 'стабильность корпуса и выносливость',
+  plankL: 'боковая стабильность корпуса',
+  plankR: 'боковая стабильность корпуса',
+  plankB: 'стабильность корпуса',
+  hang: 'хват и плечевой пояс',
+  rope: 'выносливость ног и координация',
+  jump: 'взрывная сила ног',
+  burpee: 'общая выносливость и координация',
+  squatJump: 'взрывная сила ног',
+  goblet: 'сила ног и корпуса со снарядом',
+  farmer: 'хват, осанка и сила ног',
+  kbSwing: 'задняя цепь и взрыв бёдер',
+  bridge: 'ягодицы и задняя поверхность бедра',
+  squat: 'сила ног',
+  run: 'выносливость',
+}
+
 export const AFFECT_LABELS = {
   push: 'отжимания',
   pull: 'подтягивания',
@@ -63,5 +84,9 @@ export const AFFECT_LABELS = {
 
 export function affectLabel(id) {
   return AFFECT_LABELS[id] || id
+}
+
+export function affectBenefit(id) {
+  return AFFECT_BENEFITS[id] || AFFECT_LABELS[id] || id
 }
 

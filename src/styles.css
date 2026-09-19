@@ -1386,11 +1386,51 @@ footer.site {
 .list-row.rec-self {
   border-left: 3px solid #1a6f8a;
 }
-.layer-block { margin-top: 0.85rem; }
-.layer-h {
+.session-note {
+  margin: 0 0 0.35rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.ex-done,
+.menu-list {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.ex-done li,
+.menu-list li {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.45rem;
+  align-items: baseline;
+}
+.ex-name { font-weight: 700; }
+.ex-dose { color: var(--muted); }
+.ex-up {
+  color: var(--ok);
+  font-weight: 800;
   font-size: 0.95rem;
-  font-weight: 700;
+}
+.menu-list li strong {
+  color: var(--accent-ink);
+  min-width: 4.5rem;
+}
+.list-row.session-full .body {
+  grid-column: 1 / -1;
+}
+@media (min-width: 640px) {
+  .list-row.session-full {
+    grid-template-columns: 3.2rem 4.5rem 1fr auto;
+  }
+  .list-row.session-full .body {
+    grid-column: auto;
+  }
 }
 
 .attest-teaser {

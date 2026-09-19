@@ -18,20 +18,39 @@ export function buildAthlete(seed) {
       kind: 'dojo',
       body: 'Старт сезона ОФП. Замеры и знакомство с домашним блоком.',
       mark: 'старт',
+      exercises: [],
     },
   ]
-  if (seed.pullMax != null) {
+  if (seed.pullLadder) {
+    const ladder = seed.pullLadder.join('–')
+    trainRows[0].body += ` Подтягивания лесенкой ${ladder}.`
+    trainRows[0].exercises.push({ name: 'Подтягивания', dose: `лесенка ${ladder}`, up: false })
+  } else if (seed.pullMax != null) {
     trainRows[0].body += ` Подтягивания макс. ${seed.pullMax}.`
+    trainRows[0].exercises.push({ name: 'Подтягивания', dose: `макс. ${seed.pullMax}`, up: false })
   }
 
   const exercises = exerciseBeacons(seed.planGroup)
-  if (seed.pullMax != null) {
+  if (seed.pullLadder) {
+    const pull = exercises.find((e) => e.id === 'pull')
+    if (pull) {
+      const peak = Math.max(...seed.pullLadder)
+      pull.current = peak
+      pull.unit = 'лесенка'
+      pull.name = 'Подтягивания · лесенка'
+      pull.points = [{ date: PLAN_HORIZON.start, label: '18.09', v: peak, note: seed.pullLadder.join('-') }]
+      pull.ladder = seed.pullLadder
+    }
+  } else if (seed.pullMax != null) {
     const pull = exercises.find((e) => e.id === 'pull')
     if (pull) {
       pull.current = seed.pullMax
       pull.points = [{ date: PLAN_HORIZON.start, label: '18.09', v: seed.pullMax }]
     }
   }
+
+  const baseRecs = recommendationsFor(seed.planGroup, 'c1')
+  const recommendations = seed.extraRecs ? [...seed.extraRecs, ...baseRecs] : baseRecs
 
   return {
     slug: seed.slug,
@@ -51,11 +70,13 @@ export function buildAthlete(seed) {
     notes: seed.notes || '',
     allergies: seed.allergies || [],
     cycles: cyclesForAthlete(seed.planGroup),
-    recommendations: recommendationsFor(seed.planGroup, 'c1'),
+    recommendations,
     weightRows,
     foodIds: [],
     foodDays: [],
     trainRows,
     exercises,
+    pullLadder: seed.pullLadder || null,
+    equipment: seed.equipment || null,
   }
 }

@@ -8,7 +8,7 @@ import { ageYears, fullName, showWeightOnNow, formatKg } from '@/lib/age'
 import { beltLabel } from '@/data/belts'
 import { formatDay, cycleForPeriod, inPeriod, REF_TODAY } from '@/lib/period'
 import { overallTrend, trendOf, sessionCounts } from '@/lib/trends'
-import { exercisesInPeriod, groupExercises, LAYER_LABELS, affectLabel } from '@/lib/exercises'
+import { exercisesInPeriod, groupExercises, LAYER_LABELS, affectBenefit } from '@/lib/exercises'
 import { profileById } from '@/data/profiles'
 import { athleteBySlug } from '@/data/athletes'
 import { DEMO_WEEK } from '@/data/athletes/demo'
@@ -102,7 +102,7 @@ function bumpClass(row) {
     <div v-if="athlete.isDemo" class="panel demo-banner">
       <p class="eyebrow" style="margin:0">{{ athlete.demoTitle }}</p>
       <p class="note" style="margin:0.35rem 0 0">{{ athlete.demoLead }}</p>
-      <p class="hint-line">Период: цикл «{{ cycleNow.title }}» · {{ cycleNow.start.slice(5) }} — {{ cycleNow.end.slice(5) }} · PIN семьи <strong>1111</strong></p>
+      <p class="hint-line">Период: «{{ cycleNow.title }}» · {{ cycleNow.start.slice(5) }} — {{ cycleNow.end.slice(5) }} · {{ age }} лет · PIN <strong>1111</strong></p>
     </div>
 
     <p class="eyebrow">{{ profile.shortName }} · кабинет</p>
@@ -165,8 +165,8 @@ function bumpClass(row) {
     <!-- 2. План -->
     <div v-if="homeItems.length" class="group-gap">
       <div class="section-label">
-        <h2>2. План · {{ cycleNow.title }}</h2>
-        <span class="hint">к чему ведём</span>
+        <h2>2. План тренировки</h2>
+        <span class="hint">{{ cycleNow.title }}</span>
       </div>
       <div class="panel">
         <p class="hint-line" style="margin-top:0">{{ cycleNow.focus }}</p>
@@ -191,9 +191,13 @@ function bumpClass(row) {
             </span>
           </li>
         </ul>
-        <RouterLink v-if="nextAttest" class="hint-line" :to="`/u/${athlete.slug}/base/attestation`">
-          Нормативы к {{ beltLabel(nextAttest.kyu) }} · {{ prepLabel(nextAttest) }} →
-        </RouterLink>
+        <p v-if="athlete.pullLadder" class="hint-line" style="margin-top:0.5rem">
+          Подтягивания — лесенка {{ athlete.pullLadder.join('–') }}
+        </p>
+        <p v-if="athlete.equipment" class="hint-line">
+          Снаряды: гиря {{ athlete.equipment.kettlebellKg }} кг · гантели {{ athlete.equipment.dumbbellKg }} кг на руку
+          · жим/присед — {{ athlete.equipment.benchSquat }}
+        </p>
         <details class="disclose home-extra">
           <summary>
             Подсказки
@@ -238,7 +242,7 @@ function bumpClass(row) {
             </p>
             <p class="rec-act">{{ r.action }}</p>
             <p v-if="r.affects?.length" class="hint-line">
-              Влияет на: {{ r.affects.map((id) => affectLabel(id)).join(', ') }}
+              Развивает: {{ r.affects.map((id) => affectBenefit(id)).join('; ') }}
             </p>
           </div>
         </div>
@@ -285,12 +289,21 @@ function bumpClass(row) {
         <div
           v-for="row in recent"
           :key="row.date + row.type"
-          class="list-row session"
+          class="list-row session session-full"
           :class="bumpClass(row)"
         >
           <div class="date">{{ formatDay(row.date) }}</div>
           <div class="type">{{ row.type }}</div>
-          <div class="body">{{ row.body }}</div>
+          <div class="body">
+            <p class="session-note">{{ row.body }}</p>
+            <ul v-if="row.exercises?.length" class="ex-done">
+              <li v-for="(e, i) in row.exercises" :key="i">
+                <span class="ex-name">{{ e.name }}</span>
+                <span class="ex-dose">{{ e.dose }}</span>
+                <span v-if="e.up" class="ex-up" title="чуть больше, чем в прошлый раз">↑</span>
+              </li>
+            </ul>
+          </div>
           <div class="mark">{{ row.mark }}</div>
         </div>
       </div>

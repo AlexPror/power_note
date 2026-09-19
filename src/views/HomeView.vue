@@ -45,7 +45,7 @@ import BrandMark from '@/components/BrandMark.vue'
             <span v-if="a.isDemo" class="demo-pill">пример</span>
           </h2>
           <p>
-            <template v-if="a.isDemo">Живой кабинет за цикл · PIN 1111 · </template>
+            <template v-if="a.isDemo">9 лет · пример кабинета · PIN 1111 · </template>
             {{ ageYears(a.dob) }} лет · {{ beltLabel(a.kyu) }}
           </p>
         </div>

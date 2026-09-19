@@ -38,7 +38,8 @@ const hasSources = computed(() => props.ex.points.some((p) => p.source))
       <span v-if="trend" class="badge">{{ trend }}</span>
     </div>
     <div class="now">
-      {{ ex.current }}
+      <template v-if="ex.ladder?.length">{{ ex.ladder.join('–') }}</template>
+      <template v-else>{{ ex.current }}</template>
       <small>{{ ex.unit }}</small>
     </div>
     <div class="chart-box sm" style="margin-top:0.45rem" v-if="ex.points.length > 1">

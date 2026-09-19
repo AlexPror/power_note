@@ -41,8 +41,10 @@ const sums = computed(() => {
 
 const days = computed(() => athlete.value.foodDays.map((d) => ({
   date: d.date,
+  menu: d.menu || null,
   ...dayMacros(d, athlete.value.foodIds),
 })))
+const foodDaysUi = days
 
 function onSelect() {
   if (food.value?.unitGrams) grams.value = food.value.id === 'egg' ? 2 : 1
@@ -152,14 +154,24 @@ if (catalog.value[0]) selected.value = catalog.value[0].id
       </div>
 
       <div class="section-label group-gap">
-        <h2>Дни из дневника</h2>
-        <span class="hint">что уже разобрали</span>
+        <h2>Меню по дням</h2>
+        <span class="hint">что ел · продукты</span>
       </div>
       <div class="list">
-        <div v-for="d in days" :key="d.date" class="list-row session">
+        <div v-for="d in foodDaysUi" :key="d.date" class="list-row session session-full">
           <div class="date">{{ formatDay(d.date) }}</div>
           <div class="type">{{ d.kcal }} ккал</div>
-          <div class="body">Б {{ d.p }} · Ж {{ d.f }} · У {{ d.c }}</div>
+          <div class="body">
+            <p class="session-note">Б {{ d.p }} · Ж {{ d.f }} · У {{ d.c }}</p>
+            <ul v-if="d.menu?.length" class="menu-list">
+              <li v-for="(m, i) in d.menu" :key="i">
+                <strong>{{ m.meal }}:</strong> {{ m.dishes }}
+              </li>
+            </ul>
+            <ul v-else-if="d.rows?.length" class="menu-list">
+              <li v-for="(r, i) in d.rows" :key="i">{{ r.name }} — {{ r.grams }}{{ r.unitLabel || ' г' }}</li>
+            </ul>
+          </div>
           <div class="mark">день</div>
         </div>
       </div>

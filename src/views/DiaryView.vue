@@ -43,10 +43,24 @@ function onPeriod(v) {
     </p>
 
     <div class="list">
-      <div v-for="t in rows" :key="t.date + t.type" class="list-row session" :class="{ 'bump-coach': t.bump === 'coach', 'bump-self': t.bump === 'self' }">
+      <div
+        v-for="t in rows"
+        :key="t.date + t.type"
+        class="list-row session session-full"
+        :class="{ 'bump-coach': t.bump === 'coach', 'bump-self': t.bump === 'self' }"
+      >
         <div class="date">{{ formatDay(t.date) }}</div>
         <div class="type">{{ t.type }}</div>
-        <div class="body">{{ t.body }}</div>
+        <div class="body">
+          <p class="session-note">{{ t.body }}</p>
+          <ul v-if="t.exercises?.length" class="ex-done">
+            <li v-for="(e, i) in t.exercises" :key="i">
+              <span class="ex-name">{{ e.name }}</span>
+              <span class="ex-dose">{{ e.dose }}</span>
+              <span v-if="e.up" class="ex-up" title="чуть больше, чем в прошлый раз">↑</span>
+            </li>
+          </ul>
+        </div>
         <div class="mark">{{ t.mark }}</div>
       </div>
     </div>
