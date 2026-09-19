@@ -36,11 +36,16 @@ import BrandMark from '@/components/BrandMark.vue'
         v-for="a in ATHLETES"
         :key="a.slug"
         class="list-row"
+        :class="{ 'demo-row': a.isDemo }"
         :to="`/u/${a.slug}`"
       >
         <div>
-          <h2>{{ fullName(a) }}</h2>
+          <h2>
+            {{ fullName(a) }}
+            <span v-if="a.isDemo" class="demo-pill">пример</span>
+          </h2>
           <p>
+            <template v-if="a.isDemo">Живой кабинет за цикл · PIN 1111 · </template>
             {{ ageYears(a.dob) }} лет · {{ beltLabel(a.kyu) }}
           </p>
         </div>
@@ -49,8 +54,8 @@ import BrandMark from '@/components/BrandMark.vue'
     </div>
 
     <p class="note">
-      Семье — ссылка на кабинет и общий PIN (мама, папа, бабушка — один код).
-      В первой сборке кабинеты только для просмотра.
+      Сначала откройте <strong>Васю Пупкина</strong> — там видно расписание, план, отчёт, графики и еду.
+      Остальные кабинеты группы — для семей (один PIN на кабинет).
     </p>
 
     <footer class="site">7 вершин · Своя вершина — каждый день · 7vershin.vorobjev.pro</footer>

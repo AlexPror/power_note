@@ -7,6 +7,11 @@ const props = defineProps({
   trend: { type: String, default: '' },
 })
 
+const SOURCE_COLOR = {
+  coach: '#c45c28',
+  self: '#1a6f8a',
+}
+
 const labels = computed(() => props.ex.points.map((p) => p.label))
 const datasets = computed(() => [{
   label: props.ex.unit,
@@ -15,9 +20,15 @@ const datasets = computed(() => [{
   backgroundColor: props.ex.color + '22',
   fill: true,
   tension: 0.35,
-  pointRadius: 3,
-  pointBackgroundColor: props.ex.color,
+  pointRadius: props.ex.points.map((p) => (p.source ? 5 : 3)),
+  pointBackgroundColor: props.ex.points.map(
+    (p) => SOURCE_COLOR[p.source] || props.ex.color,
+  ),
+  pointBorderColor: '#fff',
+  pointBorderWidth: 1,
 }])
+
+const hasSources = computed(() => props.ex.points.some((p) => p.source))
 </script>
 
 <template>
@@ -34,5 +45,9 @@ const datasets = computed(() => [{
       <LineChart :labels="labels" :datasets="datasets" />
     </div>
     <p v-else class="hint-line" style="margin:0.45rem 0 0">График появится после следующих замеров</p>
+    <p v-if="hasSources" class="source-legend">
+      <span class="src coach">тренер</span>
+      <span class="src self">сам / семья</span>
+    </p>
   </div>
 </template>

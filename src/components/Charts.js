@@ -53,8 +53,8 @@ const baseOpts = {
     legend: { display: false },
   },
   scales: {
-    x: { ticks: { font: { family: 'Outfit', size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
-    y: { ticks: { font: { family: 'Outfit', size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+    x: { ticks: { font: { family: 'Onest', size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+    y: { ticks: { font: { family: 'Onest', size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
   },
 }
 

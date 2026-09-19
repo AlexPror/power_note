@@ -11,6 +11,7 @@ import { overallTrend, trendOf, sessionCounts } from '@/lib/trends'
 import { exercisesInPeriod, groupExercises, LAYER_LABELS, affectLabel } from '@/lib/exercises'
 import { profileById } from '@/data/profiles'
 import { athleteBySlug } from '@/data/athletes'
+import { DEMO_WEEK } from '@/data/athletes/demo'
 import {
   PLAN_GROUPS,
   PLAN_HORIZON,
@@ -34,6 +35,8 @@ const homeItems = computed(() => {
   if (!g) return []
   return homeBlock(g, cycleNow.value.id)
 })
+const week = computed(() => athlete.value.schedule || DEMO_WEEK)
+
 function lessonHref(vid) {
   const v = videoById(vid)
   if (!v) return null
@@ -42,20 +45,22 @@ function lessonHref(vid) {
   if (v.href) return { kind: 'ext', href: v.href, label: v.title }
   return { kind: 'text', label: v.title }
 }
+
 const siblings = computed(() =>
   (athlete.value.siblingSlugs || [])
     .map((s) => athleteBySlug(s))
     .filter(Boolean)
     .map((a) => fullName(a)),
 )
+
 const p = computed(() => period.value)
 const filteredEx = computed(() => (p.value ? exercisesInPeriod(athlete.value.exercises, p.value) : []))
 const groups = computed(() => groupExercises(filteredEx.value))
 const trend = computed(() => overallTrend(filteredEx.value))
 const counts = computed(() => (p.value ? sessionCounts(athlete.value.trainRows, p.value) : { total: 0, rest: 0 }))
-const last = computed(() => {
+const recent = computed(() => {
   const rows = [...athlete.value.trainRows].filter((r) => !p.value || inPeriod(r.date, p.value))
-  return rows[rows.length - 1]
+  return rows.slice(-5).reverse()
 })
 const lastKg = computed(() => athlete.value.weightRows.at(-1)?.kg)
 const showKg = computed(() => showWeightOnNow(age.value))
@@ -64,35 +69,42 @@ const activeRecs = computed(() =>
   (athlete.value.recommendations || []).filter((r) => r.status === 'active'),
 )
 const layerOrder = ['body', 'plank', 'load', 'skill']
-const plankTrend = computed(() => {
-  const plank = groups.value.plank || []
-  if (!plank.length) return null
-  const first = plank.map((e) => e.points[0]?.v || 0).reduce((a, b) => a + b, 0)
-  const lastV = plank.map((e) => e.points.at(-1)?.v || 0).reduce((a, b) => a + b, 0)
-  return trendOf([{ v: first }, { v: lastV }])
-})
 const nextAttest = computed(() => nextAttestation(athlete.value.kyu))
+const foodOn = computed(() => (athlete.value.foodIds || []).length > 0)
+const foodInsights = computed(() => athlete.value.foodInsights || null)
 
 function onPeriod(v) {
   period.value = v
 }
 
 function layerTitle(layer) {
-  if (layer === 'plank') return `Планка · 4 вида`
+  if (layer === 'plank') return 'Планка'
   if (layer === 'body') return LAYER_LABELS.body
   return LAYER_LABELS[layer] || layer
 }
 
 function layerHint(layer) {
-  if (layer === 'plank') return plankTrend.value?.label || ''
+  if (layer === 'plank') return 'прямая и боковые'
   if (layer === 'load') return 'есть записи'
   if (layer === 'skill') return 'спорт'
   return 'своё тело'
+}
+
+function bumpClass(row) {
+  if (row.bump === 'coach') return 'bump-coach'
+  if (row.bump === 'self') return 'bump-self'
+  return ''
 }
 </script>
 
 <template>
   <div>
+    <div v-if="athlete.isDemo" class="panel demo-banner">
+      <p class="eyebrow" style="margin:0">{{ athlete.demoTitle }}</p>
+      <p class="note" style="margin:0.35rem 0 0">{{ athlete.demoLead }}</p>
+      <p class="hint-line">Период: цикл «{{ cycleNow.title }}» · {{ cycleNow.start.slice(5) }} — {{ cycleNow.end.slice(5) }} · PIN семьи <strong>1111</strong></p>
+    </div>
+
     <p class="eyebrow">{{ profile.shortName }} · кабинет</p>
     <h1 class="page-title">{{ fullName(athlete) }}</h1>
     <p class="page-sub">
@@ -105,10 +117,56 @@ function layerHint(layer) {
 
     <PeriodPicker :athlete="athlete" @update:period="onPeriod" />
 
+    <div v-if="p" class="status-strip">
+      <div class="status-item">
+        <div class="lbl">Пояс</div>
+        <div class="val" style="font-size:1.2rem;display:flex;align-items:center;gap:0.4rem">
+          <KyuBadge :kyu="athlete.kyu" />
+        </div>
+        <div class="hint">с {{ formatDay(athlete.kyuSince) }}</div>
+      </div>
+      <div class="status-item">
+        <div class="lbl">Тренировок</div>
+        <div class="val">{{ counts.total }}</div>
+        <div class="hint">пропусков {{ counts.rest }}</div>
+      </div>
+      <div class="status-item">
+        <div class="lbl">Тренд</div>
+        <div class="val" style="font-size:1.15rem">{{ trend.label }}</div>
+        <div class="hint">маяки периода</div>
+      </div>
+      <div v-if="foodOn" class="status-item">
+        <div class="lbl">Еда</div>
+        <div class="val" style="font-size:1.05rem">ведём</div>
+        <div class="hint">с {{ foodInsights?.started?.slice(5) || '…' }}</div>
+      </div>
+    </div>
+
+    <!-- 1. Расписание -->
+    <div class="group-gap">
+      <div class="section-label">
+        <h2>1. Расписание</h2>
+        <span class="hint">неделя группы</span>
+      </div>
+      <div class="week-grid">
+        <div
+          v-for="d in week"
+          :key="d.day"
+          class="week-cell"
+          :data-kind="d.kind"
+        >
+          <div class="week-day">{{ d.day }}</div>
+          <div class="week-title">{{ d.title }}</div>
+          <div class="week-body">{{ d.body }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. План -->
     <div v-if="homeItems.length" class="group-gap">
       <div class="section-label">
-        <h2>Дома · {{ cycleNow.title }}</h2>
-        <span class="hint">{{ cycleNow.start.slice(5) }} — {{ cycleNow.end.slice(5) }}</span>
+        <h2>2. План · {{ cycleNow.title }}</h2>
+        <span class="hint">к чему ведём</span>
       </div>
       <div class="panel">
         <p class="hint-line" style="margin-top:0">{{ cycleNow.focus }}</p>
@@ -133,16 +191,16 @@ function layerHint(layer) {
             </span>
           </li>
         </ul>
+        <RouterLink v-if="nextAttest" class="hint-line" :to="`/u/${athlete.slug}/base/attestation`">
+          Нормативы к {{ beltLabel(nextAttest.kyu) }} · {{ prepLabel(nextAttest) }} →
+        </RouterLink>
         <details class="disclose home-extra">
           <summary>
-            Подсказки к блоку
-            <span class="meta-line">инвентарь · техника</span>
+            Подсказки
+            <span class="meta-line">инвентарь · безопасность</span>
           </summary>
           <div class="disclose-body">
             <p class="note" style="margin-top:0">{{ PLAN_HORIZON.homeHint }}</p>
-            <p v-for="(item, i) in homeItems.filter((x) => x.note)" :key="'n'+i" class="note">
-              {{ item.name }}: {{ item.note }}
-            </p>
             <p v-if="planGroup" class="note">{{ planGroup.gear }}</p>
             <p v-if="athlete.planGroup === 'teen' || athlete.planGroup === 'senior'" class="note">{{ GYM_NOTE }}</p>
             <p class="note safety-note">{{ SAFETY_NOTICE }}</p>
@@ -151,77 +209,10 @@ function layerHint(layer) {
       </div>
     </div>
 
-    <div v-if="nextAttest" class="group-gap">
-      <RouterLink class="panel attest-teaser" :to="`/u/${athlete.slug}/base/attestation`">
-        <div class="section-label" style="margin:0">
-          <h2>К нормативам</h2>
-          <span class="hint">{{ prepLabel(nextAttest) }}</span>
-        </div>
-        <p class="hint-line">{{ beltLabel(nextAttest.kyu) }} · отжим. {{ nextAttest.push }} · пресс {{ nextAttest.crunch }} · кумитэ {{ nextAttest.kumite }}</p>
-      </RouterLink>
-    </div>
-
-    <div v-if="p" class="status-strip">
-      <div class="status-item">
-        <div class="lbl">Пояс</div>
-        <div class="val" style="font-size:1.2rem;display:flex;align-items:center;gap:0.4rem">
-          <KyuBadge :kyu="athlete.kyu" />
-        </div>
-        <div class="hint">с {{ formatDay(athlete.kyuSince) }}</div>
-      </div>
-      <div class="status-item">
-        <div class="lbl">Тренировок</div>
-        <div class="val">{{ counts.total }}</div>
-        <div class="hint">пропусков {{ counts.rest }}</div>
-      </div>
-      <div v-if="showKg && lastKg" class="status-item">
-        <div class="lbl">Вес</div>
-        <div class="val">{{ formatKg(lastKg) }}</div>
-        <div class="hint">кг · как растём</div>
-      </div>
-      <div class="status-item">
-        <div class="lbl">Тренд</div>
-        <div class="val" style="font-size:1.2rem">{{ trend.label }}</div>
-        <div class="hint">маяки периода</div>
-      </div>
-    </div>
-
-    <div v-if="activeRecs.length" class="group-gap">
-      <div class="section-label">
-        <h2>Что делаем</h2>
-        <span class="hint">рекомендации</span>
-      </div>
-      <div class="list">
-        <div v-for="r in activeRecs" :key="r.id" class="list-row rec-row">
-          <div>
-            <p class="rec-obs">{{ r.observation }}</p>
-            <p class="rec-act">{{ r.action }}</p>
-            <p v-if="r.affects?.length" class="hint-line">
-              Влияет на:
-              {{ r.affects.map((id) => affectLabel(id)).join(', ') }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-label group-gap">
-      <h2>Последняя сессия</h2>
-      <span class="hint">в выбранном периоде</span>
-    </div>
-    <div v-if="last" class="list">
-      <div class="list-row session">
-        <div class="date">{{ formatDay(last.date) }}</div>
-        <div class="type">{{ last.type }}</div>
-        <div class="body">{{ last.body }}</div>
-        <div class="mark">{{ last.mark }}</div>
-      </div>
-    </div>
-    <p v-else class="note">В этом диапазоне сессий нет.</p>
-
+    <!-- 3. Отчёт -->
     <div class="group-gap">
       <div class="section-label">
-        <h2>Отчёт цикла</h2>
+        <h2>3. Отчёт цикла</h2>
         <span class="hint">только с собой</span>
       </div>
       <div v-if="cycle?.report" class="panel">
@@ -231,24 +222,97 @@ function layerHint(layer) {
         </p>
       </div>
       <p v-else class="note">Отчёт появится после разбора тренера за цикл.</p>
-    </div>
 
-    <template v-for="layer in layerOrder" :key="layer">
-      <div v-if="groups[layer]?.length" class="group-gap">
-        <div class="section-label">
-          <h2>{{ layerTitle(layer) }}</h2>
-          <span class="hint">{{ layerHint(layer) }}</span>
-        </div>
-        <div class="ex-grid">
-          <ExerciseCard
-            v-for="ex in groups[layer]"
-            :key="ex.id"
-            :ex="ex"
-            :trend="ex.trendMeta?.label || trendOf(ex.points).label"
-          />
+      <div v-if="activeRecs.length" class="list" style="margin-top:0.75rem">
+        <div
+          v-for="r in activeRecs"
+          :key="r.id"
+          class="list-row rec-row"
+          :class="{ 'rec-coach': r.source === 'coach', 'rec-self': r.source === 'self' }"
+        >
+          <div>
+            <p class="rec-obs">
+              <span v-if="r.source === 'coach'" class="src coach">тренер</span>
+              <span v-else-if="r.source === 'self'" class="src self">сам</span>
+              {{ r.observation }}
+            </p>
+            <p class="rec-act">{{ r.action }}</p>
+            <p v-if="r.affects?.length" class="hint-line">
+              Влияет на: {{ r.affects.map((id) => affectLabel(id)).join(', ') }}
+            </p>
+          </div>
         </div>
       </div>
-    </template>
+    </div>
+
+    <!-- 4. Прогресс -->
+    <div class="group-gap">
+      <div class="section-label">
+        <h2>4. Прогресс</h2>
+        <span class="hint">графики маяков</span>
+      </div>
+      <p class="source-legend" style="margin:0 0 0.65rem">
+        Точки:
+        <span class="src coach">по рекомендации тренера</span>
+        <span class="src self">по желанию Васи / семьи</span>
+      </p>
+      <template v-for="layer in layerOrder" :key="layer">
+        <div v-if="groups[layer]?.length" class="layer-block">
+          <div class="section-label">
+            <h3 class="layer-h">{{ layerTitle(layer) }}</h3>
+            <span class="hint">{{ layerHint(layer) }}</span>
+          </div>
+          <div class="ex-grid">
+            <ExerciseCard
+              v-for="ex in groups[layer]"
+              :key="ex.id"
+              :ex="ex"
+              :trend="ex.trendMeta?.label || trendOf(ex.points).label"
+            />
+          </div>
+        </div>
+      </template>
+      <p v-if="!filteredEx.length" class="note">В этом периоде замеров ещё нет.</p>
+    </div>
+
+    <!-- Сессии -->
+    <div class="group-gap">
+      <div class="section-label">
+        <h2>Последние тренировки</h2>
+        <span class="hint">в периоде</span>
+      </div>
+      <div v-if="recent.length" class="list">
+        <div
+          v-for="row in recent"
+          :key="row.date + row.type"
+          class="list-row session"
+          :class="bumpClass(row)"
+        >
+          <div class="date">{{ formatDay(row.date) }}</div>
+          <div class="type">{{ row.type }}</div>
+          <div class="body">{{ row.body }}</div>
+          <div class="mark">{{ row.mark }}</div>
+        </div>
+      </div>
+      <p v-else class="note">В этом диапазоне сессий нет.</p>
+      <p class="hint-line">
+        <RouterLink :to="`/u/${athlete.slug}/diary`">Весь дневник →</RouterLink>
+      </p>
+    </div>
+
+    <!-- Еда teaser -->
+    <div v-if="foodOn" class="group-gap">
+      <div class="section-label">
+        <h2>Еда</h2>
+        <span class="hint">семья ведёт</span>
+      </div>
+      <div class="panel">
+        <p v-if="foodInsights" class="report" style="margin:0">{{ foodInsights.headline }}</p>
+        <p class="hint-line">
+          <RouterLink :to="`/u/${athlete.slug}/food`">Открыть рацион и выводы →</RouterLink>
+        </p>
+      </div>
+    </div>
 
     <details v-if="!showKg" class="disclose group-gap">
       <summary>
@@ -256,7 +320,7 @@ function layerHint(layer) {
         <span class="meta-line">вес · заметки</span>
       </summary>
       <div class="disclose-body">
-        <p class="note" v-if="lastKg">Вес {{ formatKg(lastKg) }} кг — контроль роста, не цель «минус». Для 8–12 лет не на первом экране.</p>
+        <p class="note" v-if="lastKg">Вес {{ formatKg(lastKg) }} кг — контроль роста, не цель «минус».</p>
         <p class="note">{{ athlete.notes }}</p>
       </div>
     </details>

@@ -77,6 +77,18 @@ if (catalog.value[0]) selected.value = catalog.value[0].id
     </template>
 
     <template v-else>
+      <div v-if="athlete.foodInsights" class="panel">
+        <h2>{{ athlete.foodInsights.headline }}</h2>
+        <p class="guide-lead">Что видно по дневнику</p>
+        <ul class="plain-list">
+          <li v-for="(f, i) in athlete.foodInsights.findings" :key="'f'+i">{{ f }}</li>
+        </ul>
+        <p class="guide-lead">Рекомендации</p>
+        <ul class="plain-list">
+          <li v-for="(t, i) in athlete.foodInsights.tips" :key="'t'+i">{{ t }}</li>
+        </ul>
+      </div>
+
       <div class="status-strip">
         <div class="status-item">
           <div class="lbl">Ориентир ккал</div>

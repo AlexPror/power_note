@@ -1,8 +1,8 @@
 const MONTHS = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
 const STORAGE_KEY = '7v_period'
 
-/** Опорная «сегодня» для демо (совпадает с updated учеников) */
-export const REF_TODAY = '2026-09-18'
+/** Опорная «сегодня»: конец демо-цикла Васи (отчёт и графики уже наглядны) */
+export const REF_TODAY = '2026-10-15'
 
 export function addDays(iso, days) {
   const d = new Date(`${iso}T00:00:00`)

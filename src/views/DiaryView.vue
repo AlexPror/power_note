@@ -43,7 +43,7 @@ function onPeriod(v) {
     </p>
 
     <div class="list">
-      <div v-for="t in rows" :key="t.date + t.type" class="list-row session">
+      <div v-for="t in rows" :key="t.date + t.type" class="list-row session" :class="{ 'bump-coach': t.bump === 'coach', 'bump-self': t.bump === 'self' }">
         <div class="date">{{ formatDay(t.date) }}</div>
         <div class="type">{{ t.type }}</div>
         <div class="body">{{ t.body }}</div>
