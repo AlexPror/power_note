@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640">
   <rect width="512" height="640" rx="108" fill="#eef4f1"/>
-  <g fill="#3d6b5c">
-    <rect x="64"  y="252" width="44" height="100" rx="22"/>
-    <rect x="120" y="208" width="44" height="144" rx="22"/>
-    <rect x="176" y="156" width="44" height="196" rx="22"/>
-    <rect x="232" y="100" width="48" height="252" rx="24"/>
-    <rect x="292" y="156" width="44" height="196" rx="22"/>
-    <rect x="348" y="208" width="44" height="144" rx="22"/>
-    <rect x="404" y="252" width="44" height="100" rx="22"/>
-  </g>
-  <path d="M56 360 H456" stroke="#c5d5ce" stroke-width="8" stroke-linecap="round" fill="none"/>
-  <text x="256" y="440" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#1a2420">7 &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;</text>
-  <text x="256" y="490" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500" fill="#5a6a64">&#x421;&#x432;&#x43E;&#x44F; &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;&#x430; &#x2014; &#x43A;&#x430;&#x436;&#x434;&#x44B;&#x439; &#x434;&#x435;&#x43D;&#x44C;</text>
+  <circle cx="256" cy="168" r="100" fill="#e8a070"/>
+  <path fill="#7aa392" d="M72 320 L120 245 L158 278 L200 210 L240 255 L256 190 L272 255 L312 210 L354 278 L392 245 L440 320 Z"/>
+  <path fill="#355f50" d="M56 338 L108 260 L140 298 L188 215 L224 270 L256 160 L288 270 L324 215 L372 298 L404 260 L456 338 Z"/>
+  <path fill="#f4f8f5" d="M236 208 L256 160 L276 208 L268 218 L256 188 L244 218 Z"/>
+  <path fill="#1a6f8a" d="M40 360 C90 338 140 352 190 360 C240 368 280 348 330 356 C380 364 430 350 472 360 L472 400 L40 400 Z"/>
+  <text x="256" y="470" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#1a2420">7 &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;</text>
+  <text x="256" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500" fill="#5a6a64">&#x421;&#x432;&#x43E;&#x44F; &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;&#x430; &#x2014; &#x43A;&#x430;&#x436;&#x434;&#x44B;&#x439; &#x434;&#x435;&#x43D;&#x44C;</text>
 </svg>
