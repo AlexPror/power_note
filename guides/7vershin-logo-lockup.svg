@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640">
+  <rect width="512" height="640" rx="108" fill="#eef4f1"/>
+  <g fill="#3d6b5c">
+    <rect x="64"  y="252" width="44" height="100" rx="22"/>
+    <rect x="120" y="208" width="44" height="144" rx="22"/>
+    <rect x="176" y="156" width="44" height="196" rx="22"/>
+    <rect x="232" y="100" width="48" height="252" rx="24"/>
+    <rect x="292" y="156" width="44" height="196" rx="22"/>
+    <rect x="348" y="208" width="44" height="144" rx="22"/>
+    <rect x="404" y="252" width="44" height="100" rx="22"/>
+  </g>
+  <path d="M56 360 H456" stroke="#c5d5ce" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <text x="256" y="440" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#1a2420">7 &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;</text>
+  <text x="256" y="490" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500" fill="#5a6a64">&#x421;&#x432;&#x43E;&#x44F; &#x432;&#x435;&#x440;&#x448;&#x438;&#x43D;&#x430; &#x2014; &#x43A;&#x430;&#x436;&#x434;&#x44B;&#x439; &#x434;&#x435;&#x43D;&#x44C;</text>
+</svg>
