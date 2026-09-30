@@ -1,31 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img">
   <rect width="512" height="512" rx="108" fill="#eef4f1"/>
-  <circle cx="256" cy="200" r="112" fill="#e8a070"/>
-  <!-- rear ridge -->
-  <path fill="#7aa392" d="
-    M88 360
-    L140 290 L175 325
-    L220 265 L256 235
-    L292 265 L337 325
-    L372 290 L424 360 Z"/>
-  <!-- front: five peaks -->
+  <circle cx="286" cy="200" r="104" fill="#e8a070"/>
+  <!-- one mass, soft knuckles/hills, uneven rhythm -->
   <path fill="#355f50" d="
-    M48 400
-    L100 310 L132 350
-    L185 260 L222 315
-    L256 205
-    L290 315 L327 260
-    L380 350 L412 310
-    L464 400 Z"/>
-  <!-- snow on center three -->
-  <path fill="#f7faf8" d="M236 255 L256 205 L276 255 L266 262 L256 232 L246 262 Z"/>
-  <path fill="#f7faf8" opacity="0.92" d="M172 295 L185 260 L202 298 L193 304 L185 280 L177 304 Z"/>
-  <path fill="#f7faf8" opacity="0.92" d="M310 298 L327 260 L340 295 L331 304 L327 280 L319 304 Z"/>
-  <!-- water meets mountain base -->
-  <path fill="#1a6f8a" d="
-    M32 400
-    C100 382 160 412 230 402
-    C300 392 360 418 420 400
-    C448 392 470 396 480 400
-    L480 468 L32 468 Z"/>
+    M36 420
+    C70 360 95 335 128 325
+    C155 316 170 345 198 330
+    C220 318 235 285 262 268
+    C280 256 295 270 318 278
+    C348 290 365 265 395 280
+    C425 296 450 340 476 420 Z"/>
+  <!-- soft snow patch, rounded not triangular -->
+  <ellipse cx="272" cy="278" rx="28" ry="16" fill="#f4f7f5" opacity="0.95"/>
+  <ellipse cx="286" cy="268" rx="18" ry="12" fill="#f4f7f5"/>
 </svg>
